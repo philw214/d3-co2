@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CO2 Emissions</title>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="https://d3js.org/d3.geo.projection.v0.min.js"></script>
+    <script type="text/javascript" src="https://d3js.org/topojson.v1.min.js"></script>
+    <script type="text/javascript" src="./libraries/smoke.js"></script>
+    <script type="text/javascript" src="./js/map.js"></script>
+    <script type="text/javascript" src="./js/functions.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+  <body>
+    <div id="main">
+      <h1 class="title">U.S. CO2 Emmisions from 1960 to 2010</h1>
+      <p class="small">in kilotons (kt)</p>
+      <div class="map-container">
+        <canvas id="map-smoke-left" width="300" height="300"></canvas>
+        <canvas id="map-smoke-right" width="300" height="300"></canvas>
+        <div class="controller"></div>
+      </div>
+      <div class="fact"></div>
+      <div class="icons">
+        <div class="icon">
+          <canvas id="canvas1" class="car-smoke"></canvas>
+          <img src="images/car_128.png" alt="Car Icon">
+        </div>
+        <div class="icon">
+          <canvas id="canvas2" class="coal-smoke"></canvas>
+          <img src="images/coal_128.png" alt="Coal Icon">
+        </div>
+        <div class="icon">
+          <canvas id="canvas3" class="factory-smoke"></canvas>
+          <img src="images/factory_128.png" alt="Factory Icon">
+        </div>
+      </div>
+      <!-- <div>Icons made by <a target="_blank" href="http://www.freepik.com" title="Freepik">Freepik</a> from <a target="_blank" href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+      <!-- <div>Data provided by: <a target="_blank" href="https://data.worldbank.org/indicator/EN.ATM.CO2E.KT?end=2015&start=2009&type=shaded&view=map&year=2014">https://data.worldbank.org/</a></div> -->
+    </div>
+    <script type="text/javascript">
+
+    // make US map
+    makeMap();
+    // start smoke over US map
+    mapSmoke();
+
+    var headline = "YEAR: ";
+    var init_year = 1960;
+    var dataset;
+
+    // create slider
+    d3.select(".controller")
+      .append("input")
+      .attr("type", "range")
+      .attr("min", "1960")
+      .attr("max", "2010")
+      .attr("step", "5")
+      .attr("value", init_year)
+      .attr("id", "year");
+
+    d3.select(".controller").append("h2").text(headline + init_year);
+    d3.select(".fact").insert("h3", ":first-child").attr("class", "co2-fact").attr("id", "fact");
+
+
+    var init = true;
+
+    // load csv data
+    d3.csv("./co2.csv", function(error, data) {
+      if (error) {
+        console.log(error);
+      } else {
+        data = data.map(function(d) {
+          var year = +d.year
+          //only use whole numbers - cut off decimal part of CO2 string
+          var co2 = +d.co2.slice(0,7);
+          return {"year": year, "co2":co2} ;
+        });
+        dataset = data;
+        // initialize first data point
+        if (init === true) {
+          iconSmoke();
+          getFact(dataset,init_year);
+          init = false;
+        }
+      }
+    });
+
+
+    //if slider is used...
+    d3.select("#year").on("input", function() {
+      var target_year = d3.select("#year").node().value;
+      d3.select("h2").text(headline + d3.select("#year").node().value);
+      // start smoke
+      iconSmoke();
+      getFact(dataset,target_year);
+    });
+
+    </script>
+  </body>
+</html>

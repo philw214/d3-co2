@@ -1,0 +1,101 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box; }
+
+h1, h2, h3, p {
+  font-family: 'Josefin Sans', sans-serif; }
+
+.title, .small {
+  text-align: center; }
+  .title .small, .small .small {
+    font-size: 14px; }
+
+input {
+  width: 300px; }
+
+.graticule {
+  fill: none;
+  stroke: #777; }
+
+.boundary {
+  fill: #ccc;
+  fill-opacity: .8;
+  stroke: #000; }
+
+.controller {
+  position: absolute;
+  left: -134px;
+  bottom: 150px; }
+  .controller input {
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg); }
+
+.fact {
+  text-align: center;
+  height: 98px; }
+  .fact .co2-fact {
+    color: #fff;
+    font-size: 81px;
+    letter-spacing: 14px;
+    text-shadow: 4px -2px 8px gray;
+    width: 670px;
+    margin: 0 auto; }
+    .fact .co2-fact.smoky {
+      transition: color 2s linear;
+      color: #835349; }
+
+.icons {
+  max-width: 960px;
+  height: 175px;
+  margin: 0 auto;
+  display: flex;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start; }
+  .icons .icon {
+    width: 285px;
+    position: relative; }
+    .icons .icon canvas {
+      position: absolute;
+      width: 100px;
+      height: 215px; }
+      .icons .icon canvas.car-smoke {
+        height: 300px;
+        top: -168px;
+        right: 87px; }
+      .icons .icon canvas.coal-smoke, .icons .icon canvas.factory-smoke {
+        right: 13px;
+        top: -155px; }
+      .icons .icon canvas.factory-smoke {
+        right: 43px;
+        top: -155px; }
+    .icons .icon img {
+      position: absolute;
+      bottom: 0;
+      right: 0; }
+
+.map-container {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto; }
+  .map-container canvas {
+    position: absolute;
+    width: 300px;
+    height: 575px; }
+    .map-container canvas#map-smoke-right {
+      right: 365px;
+      top: 20px;
+      -webkit-transform: rotate(-90deg);
+      transform: rotate(-90deg); }
+    .map-container canvas#map-smoke-left {
+      top: -33px;
+      left: 391px;
+      -webkit-transform: rotate(97deg);
+      transform: rotate(97deg); }
+
+#main {
+  width: 1500px;
+  margin: 0 auto; }
+
+/*# sourceMappingURL=styles.css.map */
